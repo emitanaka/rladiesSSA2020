@@ -1,0 +1,532 @@
+---
+title: "Beyond Beamer"
+subtitle: "Modern and Dynamic Presentations with<br> R Markdown"
+author: "Emi Tanaka"
+twitter: "@statsgen"
+email: "emi.tanaka@monash.edu"
+date: "30th Jun 2020 @ SSA NSW/Canberra x R-Ladies Sydney/Canberra | via Zoom"
+length: "60 minutes"
+bgimg: "images/bg1.jpg"
+output:
+  xaringan::moon_reader:
+    css:
+      - ninjutsu 
+      - "assets/animate.css"
+      - "assets/monash-brand.css"
+      - "assets/monash-fonts.css"
+      - "assets/styles.css" 
+      - "assets/custom.css" # add your own CSS here!
+    self_contained: false 
+    seal: false 
+    chakra: 'libs/remark-latest.min.js'
+    beforeInit: "assets/custom.js"
+    lib_dir: libs
+    includes:
+      in_header: "assets/custom.html"
+      # before_body: 
+      after_body: "assets/slideshow.js"
+      # includes
+    mathjax: "assets/mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+    nature:
+      highlightStyle: github 
+      highlightLanguage: r 
+      highlightSpans: false 
+      countIncrementalSlides: false
+      highlightLines: false
+      slideNumberFormat: '%current%/%total%'
+      navigation:
+        scroll: false 
+        touch: true
+        click: false
+      ratio: '16:9'
+---
+
+```{r setup, include = FALSE}
+fa_check <- "<i class='fas fa-check'></i>"
+fa_cross <- "<i class='fa fa-times'></i>"
+```
+
+```{r titleslide, child="components/titleslide.Rmd"}
+```
+
+<img src="images/host-logo.png" style="position:absolute;top:45%;left:57%;" height = "190px"/>
+
+---
+
+layout: true
+
+.footer[
+<a href="https://twitter.com/statsgen"><i class="fab fa-twitter"></i>@statsgen</a> <i class="fas fa-link"></i> <a href="">emitanaka.org/slides/rladiesSSA2020</a>
+]
+
+
+---
+
+background-image: url("images/bg2.jpg")
+background-size: cover
+name: download
+
+# Link to all the materials
+
+* This slide is made using R markdown via the `xaringan` R-package 📦
+* You can find [all material here <i class="fab fa-github"></i> ](https://github.com/emitanaka/rladiesSSA2020) or [download as zip here <i class="fa fa-download"></i> ](https://github.com/emitanaka/rladiesSSA2020/zipball/master/)
+
+
+
+<iframe frameborder=0  src="index.html#2" style="position:absolute;top:28.5%;left:27.46%;width:533.33px;height:300px;"></iframe>
+
+---
+
+class: monash-bg-blue center middle white
+
+`r anicon::faa("exclamation-triangle", size = 3, speed = "slow")`
+
+<br>
+
+This talk is NOT about:
+
+--
+
+<br>
+
+`r fa_cross` how to present well or communicate
+
+--
+
+<br>
+
+`r fa_cross` how to design your slides
+
+---
+
+class: monash-bg-blue center middle white
+
+<span style="font-size:3em">🎯</span>
+
+<br>
+
+`r fa_check` Learn about Beamer <i class="fas fa-handshake"></i> R Markdown
+
+--
+
+<br>
+
+`r fa_check` Why care about R Markdown?
+
+--
+
+<br>
+
+`r fa_check` Get started with `xaringan` = R Markdown <i class="fas fa-handshake"></i> `remark.js` <i class="fas fa-user-plus"></i> HTML/CSS/JS
+
+--
+
+<br>
+
+`r fa_check` Why HTML slides?
+
+--
+
+<br>
+
+<i class="fas fa-question-circle"></i> Questions? Do ask away! <span style="font-size:3em">👩🏻‍💻</span>
+
+
+---
+
+background-image: url("images/bg3.jpg")
+background-size: cover
+
+<div class="cursive-font" style="font-size:34pt!important;position:absolute;top:50%;left:30%;transform:rotate(6deg);width:500px;">
+For the beamer users who are yet to use <br>R Markdown
+</div>
+
+---
+
+# Beamer LaTeX document class
+
+.grid[
+.item[
+`example-beamer-clean.tex`
+
+.scroll-fit50[
+````{=latex}
+```{r, results="asis", echo = FALSE}
+cat(readLines("example-beamer-clean.tex"), sep = "\n")
+```
+````
+]]
+.item[
+
+`example-beamer-clean.pdf`
+
+<br>
+
+<div class="w3-display-container">
+<center>
+```{r beamer-slideshow, echo = FALSE, results='asis'}
+fns <- list.files("images", "example-beamer-clean_")
+fns_sorted <- fns[order(readr::parse_number(substr(fns, 20, nchar(fns))))]
+purrr::walk(fns_sorted, ~{
+  cat(paste0("<img class='mySlides1' src='images/", .x, "' width='98%'>\n"))
+})
+```
+<button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1, 0)">&#10094;</button>
+<button class="w3-button w3-black w3-display-right" onclick="plusDivs(1, 0)">&#10095;</button>
+</center>
+</div>
+
+
+]
+]
+
+
+---
+
+# Clean syntax with Markdown
+
+.grid[
+.item[
+`example-beamer-clean.tex`
+.scroll-fit50[
+````latex
+```{r, results="asis", echo = FALSE}
+cat(readLines("example-beamer-clean.tex"), sep = "\n")
+```
+````
+]
+]
+.item[
+`example-beamer.Rmd`
+.scroll-fit50[
+````yaml
+```{r, results="asis", echo = FALSE}
+beamer_eg <- readLines("example-beamer.Rmd")
+line_yaml_start <- which(beamer_eg=="---")[1]
+line_yaml_end <- which(beamer_eg=="---")[2]
+cat(beamer_eg[line_yaml_start:line_yaml_end], sep = "\n")
+```
+````
+````markdown
+```{r, results="asis", echo = FALSE}
+cat(beamer_eg[(line_yaml_end + 1):length(beamer_eg)], sep = "\n")
+```
+````
+]
+]
+]
+
+---
+
+# Beamer LaTeX with R Markdown
+
+.grid[
+.item[
+`example-beamer`.monash-blue[`.Rmd`]
+
+.scroll-fit50[
+````yaml
+```{r, results="asis", echo = FALSE}
+beamer_eg <- readLines("example-beamer.Rmd")
+line_yaml_start <- which(beamer_eg=="---")[1]
+line_yaml_end <- which(beamer_eg=="---")[2]
+cat(beamer_eg[line_yaml_start:line_yaml_end], sep = "\n")
+```
+````
+````markdown
+```{r, results="asis", echo = FALSE}
+cat(beamer_eg[(line_yaml_end + 1):length(beamer_eg)], sep = "\n")
+```
+````
+]]
+.item[
+
+`example-beamer.pdf`
+
+<br>
+
+<div class="w3-display-container">
+<center>
+```{r beamer-slideshow2, echo = FALSE, results='asis'}
+fns <- list.files("images", "example-beamer_")
+fns_sorted <- fns[order(readr::parse_number(substr(fns, 10, nchar(fns))))]
+purrr::walk(fns_sorted, ~{
+  cat(paste0("<img class='mySlides2' src='images/", .x, "' width='98%'>\n"))
+})
+```
+<button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1, 1)">&#10094;</button>
+<button class="w3-button w3-black w3-display-right" onclick="plusDivs(1, 1)">&#10095;</button>
+</center>
+</div>
+
+
+]
+]
+
+---
+
+# Why care about R Markdown?
+
+.info-box.margin50[
+`r fa_check` Clean syntax for writing content
+
+`r fa_check` Integrates code and output easily:
+   * great for tutorials, workshops, lectures to demonstrate how to use code
+   * great for presenting analytical results
+
+
+`r fa_check` Some code syntax highlighting code done for you
+
+<br>
+
+.grid[
+.item.font_smaller[
+*Verbatim code*
+```{r, eval = FALSE, highlight=FALSE}
+mtcars %>% 
+  mutate(new = 30, string = "hello")
+```
+
+]
+.item.font_smaller[
+*Syntax highlighting*
+```{r, eval = FALSE}
+mtcars %>% 
+  mutate(new = 30, string = "hello")
+```
+(achieved commonly using `listings` package in LaTeX)
+]
+]
+
+
+]
+
+---
+
+# R Markdown <i class="fas fa-handshake"></i> Beamer
+
+.grid[
+.item[
+`example-beamer2.Rmd`
+
+.scroll-fit50[
+````yaml
+```{r, results="asis", echo = FALSE}
+beamer_eg <- readLines("example-beamer2.Rmd")
+line_yaml_start <- which(beamer_eg=="---")[1]
+line_yaml_end <- which(beamer_eg=="---")[2]
+cat(beamer_eg[line_yaml_start:line_yaml_end], sep = "\n")
+```
+````
+````markdown
+```{r, results="asis", echo = FALSE}
+cat(beamer_eg[(line_yaml_end + 1):length(beamer_eg)], sep = "\n")
+```
+````
+]]
+.item[
+
+`example-beamer2.pdf`
+
+<br>
+
+<div class="w3-display-container">
+<center>
+```{r beamer-slideshow3, echo = FALSE, results='asis'}
+fns <- list.files("images", "example-beamer2_")
+fns_sorted <- fns[order(readr::parse_number(substr(fns, 10, nchar(fns))))]
+purrr::walk(fns_sorted, ~{
+  cat(paste0("<img class='mySlides3' src='images/", .x, "' width='98%'>\n"))
+})
+```
+<button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1, 2)">&#10094;</button>
+<button class="w3-button w3-black w3-display-right" onclick="plusDivs(1, 2)">&#10095;</button>
+</center>
+</div>
+
+
+]
+]
+
+---
+
+background-image: url("images/bg4.jpg")
+background-size: 120%
+
+<div class="cursive-font" style="font-size:30pt!important;position:absolute;top:60%;left:40%;transform:rotate(20deg);width:30%;">
+For those that want to learn about `xaringan`
+</div>
+
+
+---
+
+background-image: url("images/bg5.jpg")
+background-size: 100%
+
+# Getting started with `xaringan`
+
+
+
+
+
+<iframe frameborder=0  src="https://slides.yihui.org/xaringan/#1" style="position:absolute;top:24.55%;left:27.46%;width:533.33px;height:390px;"></iframe>
+
+
+---
+
+background-image: url("images/bg5.jpg")
+background-size: 100%
+
+# Check out Earo Wang's talk at R-Ladies Auckland
+
+Slide + Code [here](https://earo.me/talk/rladiesakl20/).
+
+<iframe frameborder=0  src="https://slides.earo.me/rladiesakl20/#1" style="position:absolute;top:24.55%;left:27.46%;width:533.33px;height:390px;"></iframe>
+
+---
+
+background-image: url("images/bg5.jpg")
+background-size: 100%
+
+# Also Alison Hill's slides!
+
+<iframe frameborder=0  src="https://arm.rbind.io/slides/xaringan.html#1" style="position:absolute;top:24.55%;left:27.46%;width:533.33px;height:390px;"></iframe>
+
+
+---
+
+# <i class="fas fa-user-ninja"></i> Getting started with `xaringan` slides
+
+
+```{r, eval = FALSE, echo = TRUE}
+install.packages("xaringan")
+```
+
+`RStudio > File > New File > R Markdown > From Template > Ninja Presentation`
+
+
+<br>
+
+* You do have to know HTML/CSS
+* JS helps as well
+
+--
+
+
+* But if you don't know then
+
+```{r, eval = FALSE, echo = TRUE}
+install.packages("xaringanthemer")
+```
+
+`RStudio > File > New File > R Markdown > From Template > Ninja Themed Presentation`
+
+---
+
+class: font_smaller
+
+# <i class="fab fa-html5"></i> Why HTML slides?
+
+`r anicon::nia("Interactivity!", animate = "burst", anitype ="hover", color="purple")` `r anicon::nia("Animate!", animate = "bounce", color = "blue")`
+
+```{r table}
+DT::datatable(mtcars)
+```
+
+---
+
+class: font_small
+
+# <i class="fas fa-mouse-pointer"></i> Interactive plots into html slides
+
+.grid[.item[
+```{r, message = FALSE}
+library(plotly) # for interactive plots
+g <- ggplot(mtcars) +
+  aes(mpg, disp, color = factor(cyl)) +
+  geom_point() + 
+  theme_bw(base_size = 20)
+p <- ggplotly(g)
+htmltools::save_html(p, file = "example-plotly.html")
+```
+Doable, but slightly fiddly to embed in slides ([see Di Cook's blog](http://dicook.org/2018/08/29/getting-past-the-little-hiccups-to-getting-plotly-animations-into-slides/)).
+```
+<iframe src="example-plotly.html" width="550" height="500"></iframe>
+```
+
+]
+.item[
+
+
+<iframe src="example-plotly.html" width="550" height="500"></iframe>
+
+]
+
+]
+
+
+---
+
+# <i class="fas fa-chalkboard-teacher"></i> Side-by-side code and output demo
+
+* See also [`flipbooks` talk by Gina Reynolds](https://rstudio.com/resources/rstudioconf-2020/flipbooks-evangeline-reynolds/) and her [`flipbookr`](https://github.com/EvaMaeRey/flipbookr) R-package.
+* This uses the code from [here by me](https://gist.github.com/emitanaka/99c5673ddc8f9103dd3c8fec05ab15ea) and shortened [here by Garrick](https://gist.github.com/gadenbuie/634060984f0007bf390a931dd3b31bab).
+
+.grid[
+.item[
+.scroll-fit50[
+````yaml
+```{r, results="asis", echo = FALSE}
+beamer_eg <- readLines("ggplot-tutorial.Rmd")
+line_yaml_start <- which(beamer_eg=="---")[1]
+line_yaml_end <- which(beamer_eg=="---")[2]
+cat(beamer_eg[line_yaml_start:line_yaml_end], sep = "\n")
+```
+````
+````markdown
+```{r, results="asis", echo = FALSE}
+cat(beamer_eg[(line_yaml_end + 1):length(beamer_eg)], sep = "\n")
+```
+````
+]]
+.item[
+
+<iframe src="ggplot-tutorial.html" height="320" width="550"></iframe>
+
+]]
+
+
+---
+
+```{r, load_refs, include=FALSE, cache=FALSE}
+library(RefManageR)
+BibOptions(check.entries = FALSE,
+           bib.style = "numeric",
+           cite.style = "alphabetic",
+           style = "markdown",
+           hyperlink = TRUE,
+           dashed = TRUE)
+myBib <- ReadBib("references.bib", check = FALSE)
+```
+
+# <i class="fas fa-book"></i> Bibiliography and citations
+
+
+See [here](https://github.com/yihui/xaringan/wiki/Bibliography-and-citations) for using bibtex citation in `xaringan` slides. 
+
+<br>
+
+
+## References
+
+```{r refs, echo=FALSE, results = "asis"}
+NoCite(myBib, "*")
+PrintBibliography(myBib)
+```
+
+
+---
+
+
+```{r endslide, child="components/endslide.Rmd"}
+```

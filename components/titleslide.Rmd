@@ -1,0 +1,52 @@
+
+background-color: #006DAE
+class: middle center hide-slide-number
+
+
+<div class="shade_black"  style="width:60%;right:0;bottom:0;padding:10px;border: dashed 4px white;margin: auto;">
+<i class="fas fa-exclamation-circle"></i> These slides are viewed best by Chrome and occasionally need to be refreshed if elements did not load properly. See <a href=`r rmarkdown::metadata$pdflink`/>here for PDF <i class="fas fa-file-pdf"></i></a>. 
+</div>
+
+<br>
+
+.white[Press the **right arrow** to progress to the next slide!]
+
+---
+
+
+background-image: url(`r rmarkdown::metadata$bgimg`)
+background-size: cover
+class: hide-slide-number title-slide
+count: false
+
+<div style="position: absolute; left: 30%; top: 15%; width:50%">
+
+
+<h1 class="monash-blue">`r rmarkdown::metadata$title`</h1>
+
+
+<h2 style="font-weight:900!important;">`r rmarkdown::metadata$subtitle`</h2>
+
+</div>
+
+.bottom_abs.width100.shade_black[
+
+<img src="images/monash-logo.png" style="float:right;" height = "120px"/>
+
+**`r rmarkdown::metadata$author`**
+
+
+Department of Econometrics and Business Statistics
+
+`r anicon::faa("envelope", animate="float")`  `r rmarkdown::metadata$email`
+`r anicon::faa("twitter", animate="float")`  `r rmarkdown::metadata$twitter`
+
+`r rmarkdown::metadata$date`
+
+]
+
+
+
+
+
+

@@ -1,0 +1,406 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+  10pt,
+  ignorenonframetext,
+  aspectratio=169,
+]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+  \centering
+  \begin{beamercolorbox}[sep=16pt,center]{part title}
+    \usebeamerfont{part title}\insertpart\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+  \centering
+  \begin{beamercolorbox}[sep=12pt,center]{part title}
+    \usebeamerfont{section title}\insertsection\par
+  \end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center]{part title}
+    \usebeamerfont{subsection title}\insertsubsection\par
+  \end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{unicode-math}
+  \fi
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usetheme[]{Copenhagen}
+\usecolortheme{dolphin}
+\usefonttheme{structurebold}
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={This is a Beamer presentation made using R Markdown},
+  pdfauthor={Emi Tanaka},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\newif\ifbibliography
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{fancyvrb}
+
+\title{This is a Beamer presentation made using R Markdown}
+\subtitle{\texttt{rmarkdown::beamer\_presentation}}
+\author{Emi Tanaka}
+\date{30th June 2020}
+\institute{Monash University}
+
+\begin{document}
+\frame{\titlepage}
+
+\begin{frame}
+  \tableofcontents[hideallsubsections]
+\end{frame}
+\hypertarget{basics}{%
+\section{Basics}\label{basics}}
+
+\begin{frame}[fragile]{Setting up the YAML}
+\protect\hypertarget{setting-up-the-yaml}{}
+
+\begin{block}{R Markdown YAML}
+
+\texttt{output:\ beamer\_presentation}
+
+\end{block}
+
+Also check out the
+\href{https://github.com/eddelbuettel/binb}{\texttt{binb} R-package}.
+
+\end{frame}
+
+\hypertarget{clean-syntax}{%
+\section{Clean syntax}\label{clean-syntax}}
+
+\begin{frame}{Example: Writing mathematics is as usual}
+\protect\hypertarget{example-writing-mathematics-is-as-usual}{}
+
+Consider a general linear mixed models:
+
+\[\boldsymbol{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{Z}\boldsymbol{u} + \boldsymbol{e}\]
+where
+
+\begin{itemize}
+\tightlist
+\item
+  \(\boldsymbol{y}\) is a \(n\times 1\) vector of observations,
+\item
+  \(\mathbf{X}\) is a \(n\times p\) design matrix for fixed effects
+  \(\boldsymbol{\beta}\),
+\item
+  \(\mathbf{Z}\) is a \(n\times q\) design matrix for fixed effects
+  \(\boldsymbol{u}\), and
+\item
+  \(\boldsymbol{e}\) is a \(n\times 1\) vector of random error.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Simplified content writing: itemized list}
+\protect\hypertarget{simplified-content-writing-itemized-list}{}
+
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{block}{Plain \LaTeX}
+
+\small
+
+\begin{verbatim}
+\begin{itemize}
+\item 
+  $\boldsymbol{y}$ is a 
+  $n\times 1$ vector of 
+  observations,
+\item
+  $\mathbf{X}$ is a $n\times p$ 
+  design matrix for fixed effects
+  $\boldsymbol{\beta}$$,
+\item
+  $\mathbf{Z}$ is a $n\times q$ 
+  design matrix for fixed effects
+  $\boldsymbol{u}$, and
+\item
+  $\boldsymbol{e}$ is a $n\times 1$ 
+  vector of random error.
+\end{itemize}
+\end{verbatim}
+
+\end{block}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\begin{block}{Markdown syntax}
+
+\small
+
+\vspace{0.5cm}
+
+\begin{verbatim}
+* $\boldsymbol{y}$ is a $n\times 1$ 
+  vector of observations,
+  
+* $\mathbf{X}$ is a $n\times p$ 
+  design matrix for fixed effects 
+  $\boldsymbol{\beta}$,
+  
+* $\mathbf{Z}$ is a $n\times q$ 
+  design matrix for fixed effects 
+  $\boldsymbol{u}$, and
+  
+* $\boldsymbol{e}$ is a $n\times 1$ 
+  vector of random error.
+\end{verbatim}
+
+\end{block}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{Make new frame}
+\protect\hypertarget{make-new-frame}{}
+
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+Instead of
+
+\begin{block}{\LaTeX}
+
+\begin{verbatim}
+\begin{frame}{Title}
+Content
+\ end{frame}
+\end{verbatim}
+
+\end{block}
+
+do
+
+\begin{block}{markdown}
+
+\begin{verbatim}
+## Title
+Content
+\end{verbatim}
+
+\end{block}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+In the \textbf{R Markdown YAML} set:
+
+\begin{verbatim}
+output:
+  beamer_presentation:
+    slide_level: 2
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  then a heading at slide level starts a new frame; or
+\item
+  a horizontal line, like \texttt{-\/-\/-}, starts a new frame.
+\end{itemize}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\begin{frame}[fragile]{Multi-column output}
+\protect\hypertarget{multi-column-output}{}
+
+Stick with \LaTeX or Pandoc syntax (both will work)
+
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\begin{block}{Plain \LaTeX}
+
+\begin{verbatim}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+Column 1 content
+\end{column}
+\begin{column}{0.5\textwidth}
+Column 2 content
+\end{column}
+\end{columns}
+\end{verbatim}
+
+\end{block}
+\end{column}
+
+\begin{column}{0.48\textwidth}
+\begin{block}{Pandoc syntax}
+
+\begin{verbatim}
+:::: columns
+::: column
+Column 1 content
+:::
+::: column
+Column 2 content
+:::
+::::
+\end{verbatim}
+
+\end{block}
+\end{column}
+\end{columns}
+
+\end{frame}
+
+\hypertarget{appearance}{%
+\section{Appearance}\label{appearance}}
+
+\begin{frame}[fragile]{Pandoc options}
+\protect\hypertarget{pandoc-options}{}
+
+\begin{itemize}
+\tightlist
+\item
+  See
+  \href{https://pandoc.org/MANUAL.html\#variables-for-beamer-slides}{Pandoc
+  manual} for all the variables available to modify in the YAML.
+
+  \begin{itemize}
+  \tightlist
+  \item
+    E.g. \texttt{aspectratio:\ 43} for 4:3 ratio.
+  \end{itemize}
+\item
+  See also
+  \href{https://pandoc.org/MANUAL.html\#producing-slide-shows-with-pandoc}{Producing
+  slide shows with pandoc}
+
+  \begin{itemize}
+  \tightlist
+  \item
+    E.g. Speaker notes
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile,shrink]{Beamer frame atributes}
+\protect\hypertarget{beamer-frame-atributes}{}
+
+\begin{verbatim}
+## Beamer frame atributes {.shrink}
+\end{verbatim}
+
+\begin{itemize}
+\tightlist
+\item
+  The frame attributes in Section 8.1 of the
+  \href{http://mirror.aarnet.edu.au/pub/CTAN/macros/latex/contrib/beamer/doc/beameruserguide.pdf}{Beamer
+  User's Guide} can be used if inserted after header level as
+  \texttt{\{.attribute\}} where \texttt{attribute} replaced with
+
+  \begin{itemize}
+  \tightlist
+  \item
+    \texttt{allowdisplaybreaks}
+  \item
+    \texttt{allowframebreaks}
+  \item
+    \texttt{b}
+  \item
+    \texttt{c}
+  \item
+    \texttt{t}
+  \item
+    \texttt{environment}
+  \item
+    \texttt{label}
+  \item
+    \texttt{plain}
+  \item
+    \texttt{shrink}
+  \item
+    \texttt{standout}
+  \item
+    \texttt{noframenumbering}
+  \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+\hypertarget{animation}{%
+\section{Animation}\label{animation}}
+
+\begin{frame}[fragile]{Animation}
+
+\begin{itemize}[<+->]
+\tightlist
+\item
+  First step
+\item
+  Second step
+\item
+  Third step
+\end{itemize}
+
+\pause
+
+You can also include pauses with \texttt{.\ .\ .}
+
+\end{frame}
+
+\end{document}

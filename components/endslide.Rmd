@@ -1,0 +1,37 @@
+background-image: url(`r rmarkdown::metadata$bgimg`)
+background-size: cover
+class: hide-slide-number hide-footer
+
+<div style="position: absolute; left: 30%; top: 15%; width:47%;font-size:18pt">
+
+<br>
+<h1 class="monash-blue" style="font-size:24pt!important"><i class="fas fa-link"></i> <a href="">emitanaka.org/slides/rladiesSSA2020</a></h1>
+
+Where to get help?
+
+<ul>
+<li>Your local R-Ladies Meetup: <a href="https://www.meetup.com/en-AU/rladies-melbourne/">Melbourne</a>, <a href="https://www.meetup.com/rladies-sydney/">Sydney</a>, <a href="https://www.meetup.com/rladies-canberra/">Canberra</a>, <a href="https://www.meetup.com/en-AU/rladies-perth/">Perth</a>, <a href="https://www.meetup.com/en-AU/rladies-adelaide/">Adelaide</a>, <a href="https://www.meetup.com/en-AU/rladies-brisbane/">Brisbane</a></li>
+<li><a href="https://www.rfordatasci.com/">R4DS Community Slack</a></li>
+<li><a href="https://twitter.com/search?q=%23rstats">Twitter with hastag #rstats</a></li>
+<li><a href="https://community.rstudio.com/">RStudio Community</a></li>
+<li><a href="https://stackoverflow.com/questions/tagged/r">Stackoverflow</a> (I answer questions tagged with `xaringan` often)</li>
+</ul>
+We teach <a href="https://handbook.monash.edu/2020/units/ETC5523">Communicating with Data</a> in the <a href="https://www.monash.edu/business/master-of-business-analytics">Masters of Business Analytics</a> at Monash University
+</div>
+
+.bottom_abs.width100.shade_black[
+
+<img src="images/monash-logo.png" style="float:right;" height = "120px"/>
+
+**`r rmarkdown::metadata$author`**
+
+
+Department of Econometrics and Business Statistics
+
+`r anicon::faa("envelope", animate="float")`  `r rmarkdown::metadata$email`
+`r anicon::faa("twitter", animate="float")`  `r rmarkdown::metadata$twitter`
+
+`r rmarkdown::metadata$date`
+
+]
+

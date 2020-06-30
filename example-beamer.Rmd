@@ -1,0 +1,266 @@
+---
+title: This is a Beamer presentation made using R Markdown
+subtitle: "`rmarkdown::beamer_presentation`"
+author: Emi Tanaka
+institute: Monash University
+date: "30th June 2020"
+fontsize: 10pt
+mathspec: true # for metropolis theme
+aspectratio: 169 # 16:9
+#classoption: handout
+output:
+ beamer_presentation:
+   theme: "Copenhagen" 
+   # https://deic-web.uab.cat/~iblanes/beamer_gallery/index_by_theme.html
+   #theme: "metropolis" # special
+   colortheme: "dolphin"
+   # https://deic-web.uab.cat/~iblanes/beamer_gallery/index_by_color.html
+   fonttheme: "structurebold"
+   # https://deic-web.uab.cat/~iblanes/beamer_gallery/index_by_font.html
+   latex_engine: xelatex # for metropolis theme
+   toc: true
+   slide_level: 2
+   keep_tex: true
+   #includes:
+   #   in_header: preamble.tex
+header-includes:
+  - \usepackage{fancyvrb}
+---
+
+
+# Basics
+
+## Setting up the YAML
+
+::: block
+### R Markdown YAML
+
+`output: beamer_presentation`
+:::
+
+Also check out the [`binb` R-package](https://github.com/eddelbuettel/binb).
+
+
+
+# Clean syntax 
+
+## Example: Writing mathematics is as usual
+
+
+Consider a general linear mixed models:
+
+$$\boldsymbol{y} = \mathbf{X}\boldsymbol{\beta} + \mathbf{Z}\boldsymbol{u} + \boldsymbol{e}$$
+where 
+
+* $\boldsymbol{y}$ is a $n\times 1$ vector of observations,
+* $\mathbf{X}$ is a $n\times p$ design matrix for fixed effects $\boldsymbol{\beta}$,
+* $\mathbf{Z}$ is a $n\times q$ design matrix for fixed effects $\boldsymbol{u}$, and
+* $\boldsymbol{e}$ is a $n\times 1$ vector of random error.
+
+
+## Simplified content writing: itemized list
+
+:::::: columns
+::: column
+
+### Plain \LaTeX
+
+\small  
+  
+
+```
+\begin{itemize}
+\item 
+  $\boldsymbol{y}$ is a 
+  $n\times 1$ vector of 
+  observations,
+\item
+  $\mathbf{X}$ is a $n\times p$ 
+  design matrix for fixed effects
+  $\boldsymbol{\beta}$$,
+\item
+  $\mathbf{Z}$ is a $n\times q$ 
+  design matrix for fixed effects
+  $\boldsymbol{u}$, and
+\item
+  $\boldsymbol{e}$ is a $n\times 1$ 
+  vector of random error.
+\end{itemize}
+```
+
+:::
+::: column
+
+### Markdown syntax
+
+\small  
+
+\vspace{0.5cm}
+
+```
+* $\boldsymbol{y}$ is a $n\times 1$ 
+  vector of observations,
+  
+* $\mathbf{X}$ is a $n\times p$ 
+  design matrix for fixed effects 
+  $\boldsymbol{\beta}$,
+  
+* $\mathbf{Z}$ is a $n\times q$ 
+  design matrix for fixed effects 
+  $\boldsymbol{u}$, and
+  
+* $\boldsymbol{e}$ is a $n\times 1$ 
+  vector of random error.
+```
+
+
+:::
+::::::
+
+
+
+## Make new frame {.fragile}
+
+
+::: columns
+
+::: column
+
+Instead of 
+
+
+::: block
+### \LaTeX
+```
+\begin{frame}{Title}
+Content
+\ end{frame}
+```
+:::
+
+do
+
+### markdown
+
+```
+## Title
+Content
+```
+
+:::
+::: column
+
+In the **R Markdown YAML** set:
+
+```
+output:
+  beamer_presentation:
+    slide_level: 2
+```
+
+* then a heading at slide level starts a new frame; or
+* a horizontal line, like `---`, starts a new frame.
+
+:::
+:::
+
+## Multi-column output
+
+Stick with \LaTeX or Pandoc syntax (both will work)
+
+:::: columns
+
+::: column
+
+### Plain \LaTeX
+
+```
+\begin{columns}
+\begin{column}{0.5\textwidth}
+Column 1 content
+\end{column}
+\begin{column}{0.5\textwidth}
+Column 2 content
+\end{column}
+\end{columns}
+```
+
+:::
+::: column
+
+### Pandoc syntax
+
+```
+:::: columns
+::: column
+Column 1 content
+:::
+::: column
+Column 2 content
+:::
+::::
+```
+:::
+::::
+
+
+
+# Appearance
+
+## Pandoc options
+
+* See [Pandoc manual](https://pandoc.org/MANUAL.html#variables-for-beamer-slides) for all the variables available to modify in the YAML.
+  * E.g. `aspectratio: 43` for 4:3 ratio.
+
+* See also [Producing slide shows with pandoc](https://pandoc.org/MANUAL.html#producing-slide-shows-with-pandoc)
+  * E.g. Speaker notes
+  
+
+## Beamer frame atributes {.shrink}
+
+```
+## Beamer frame atributes {.shrink}
+```
+
+* The frame attributes in Section 8.1 of the [Beamer User's Guide](http://mirror.aarnet.edu.au/pub/CTAN/macros/latex/contrib/beamer/doc/beameruserguide.pdf) can be used if inserted after header level as `{.attribute}` where `attribute` replaced with 
+  * `allowdisplaybreaks`
+  * `allowframebreaks`
+  * `b`
+  * `c`
+  * `t`
+  * `environment`
+  * `label`
+  * `plain`
+  * `shrink`
+  * `standout`
+  * `noframenumbering`
+
+
+
+# Animation
+
+
+::: incremental
+
+* First step
+* Second step
+* Third step
+
+:::
+
+. . . 
+
+You can also include pauses with `. . . `
+
+
+
+```{r export, include = FALSE}
+library(pdftools)
+pdf_convert("example-beamer.pdf", format = "png", dpi = 200)
+fns <- list.files(pattern = "example-beamer_")
+purrr::walk(fns, ~{
+  file.copy(.x, paste0("images/", .x), overwrite = TRUE)
+  file.remove(.x)
+})
+```
+
