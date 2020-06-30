@@ -56,7 +56,7 @@ fa_cross <- "<i class='fa fa-times'></i>"
 layout: true
 
 .footer[
-<a href="https://twitter.com/statsgen"><i class="fab fa-twitter"></i>@statsgen</a> <i class="fas fa-link"></i> <a href="">emitanaka.org/slides/rladiesSSA2020</a>
+<a href="https://twitter.com/statsgen"><i class="fab fa-twitter"></i>@statsgen</a> <i class="fas fa-link"></i> <a href="http://emitanaka.org/slides/rladiesSSA2020/#1">emitanaka.org/slides/rladiesSSA2020/</a>
 ]
 
 
