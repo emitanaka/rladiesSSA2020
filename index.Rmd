@@ -247,7 +247,7 @@ cat(beamer_eg[(line_yaml_end + 1):length(beamer_eg)], sep = "\n")
 
 <div class="w3-display-container">
 <center>
-```{r beamer-slideshow2, echo = FALSE, results='asis'}
+```{r beamer-slideshow2, echo = FALSE, results='asis', warning=FALSE}
 fns <- list.files("images", "example-beamer_")
 fns_sorted <- fns[order(readr::parse_number(substr(fns, 10, nchar(fns))))]
 purrr::walk(fns_sorted, ~{
